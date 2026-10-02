@@ -1,0 +1,39 @@
+# Experimental Configuration Placeholders
+# TODO: Requires experimental determination
+
+system:
+  sampling_rate_hz: "TODO"
+  carrier_frequency_hz: "TODO"
+  bandwidth_hz: "TODO"
+
+snn:
+  input_dimension: "TODO"
+  hidden_neurons: "TODO"
+  threshold: "TODO"
+  membrane_decay_beta: "TODO"
+  learning_rate: "TODO"
+  num_time_steps: "TODO"
+
+cnn:
+  input_channels: 1
+  learning_rate: "TODO"
+
+localization:
+  timing_error_std: "TODO"
+  freq_error_std: "TODO"
+  measurement_noise_std: "TODO"
+
+optimization:
+  candidate_count_limit: "TODO"
+  weights:
+    w1_rfi: "TODO"
+    w2_latency: "TODO"
+    w3_switching: "TODO"
+    w4_sinr: "TODO"
+    w5_path_cost: "TODO"
+  constraint_penalties:
+    lambda_route: "TODO"
+
+simulation:
+  satellites: "TODO"
+  receivers: "TODO"

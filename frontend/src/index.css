@@ -1,0 +1,433 @@
+@import 'cesium/Build/Cesium/Widgets/widgets.css';
+
+:root {
+  --bg-space: #03060d;
+  --bg-panel: linear-gradient(145deg, rgba(10, 22, 44, 0.9), rgba(5, 12, 26, 0.95));
+  --bg-panel-solid: #091325;
+  --bg-panel-hover: linear-gradient(145deg, rgba(14, 28, 56, 0.92), rgba(8, 17, 36, 0.98));
+  --border-cyan: rgba(0, 229, 255, 0.35);
+  --border-cyan-bright: #00e5ff;
+  --cyan-glow: 0 0 15px rgba(0, 229, 255, 0.22);
+  --cyan-accent: #00e5ff;
+  --blue-primary: #0284c7;
+  --blue-bright: #38bdf8;
+  --emerald-nominal: #10b981;
+  --amber-warning: #f59e0b;
+  --crimson-alert: #ef4444;
+  --purple-quantum: #a855f7;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Master Layout */
+.mc-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--bg-space);
+  position: relative;
+}
+
+.mc-header {
+  height: 52px;
+  padding: 0 16px;
+  background: linear-gradient(180deg, rgba(8, 16, 32, 0.98) 0%, rgba(4, 9, 20, 0.94) 100%);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 30;
+  flex-shrink: 0;
+}
+
+.mc-viewport {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - 52px);
+  overflow: hidden;
+}
+
+.mc-globe-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #051024 0%, #01040a 85%);
+}
+
+/* Left & Right Glass Control Decks (Clean, spacious tabs) */
+.mc-left-deck {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  bottom: 24px;
+  width: 360px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.mc-right-deck {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  bottom: 24px;
+  width: 380px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+/* Bottom Sub-Views Bar */
+.mc-bottom-row {
+  position: absolute;
+  bottom: 14px;
+  left: 390px;
+  right: 410px;
+  height: 185px;
+  z-index: 25;
+  display: grid;
+  grid-template-columns: 240px 130px 130px 130px 1fr;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+/* Camera presets centered above globe */
+.mc-camera-presets {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, rgba(12, 25, 48, 0.92), rgba(6, 13, 27, 0.96));
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 229, 255, 0.15);
+}
+
+/* Glossy Card Design System */
+.mission-card {
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-cyan);
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.1), var(--cyan-glow);
+  transition: all 0.2s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.mission-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.6), transparent);
+}
+
+.mission-card-header {
+  padding: 7px 11px;
+  background: linear-gradient(180deg, rgba(14, 30, 60, 0.7) 0%, rgba(8, 18, 38, 0.4) 100%);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #38bdf8;
+}
+
+.mission-card-body {
+  padding: 8px 10px;
+}
+
+/* High-Tech Glossy Buttons */
+.mc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: linear-gradient(180deg, rgba(23, 41, 75, 0.8) 0%, rgba(13, 24, 46, 0.85) 100%);
+  color: #e2e8f0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.mc-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(35, 62, 110, 0.9) 0%, rgba(18, 35, 68, 0.95) 100%);
+  border-color: rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+  color: #ffffff;
+}
+
+.mc-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.mc-btn-primary {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+.mc-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%) !important;
+  border-color: #7dd3fc !important;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.6) !important;
+}
+
+.mc-btn-danger {
+  background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+  border-color: #f87171;
+  color: #ffffff;
+}
+
+/* Badges */
+.mc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mc-badge-cyan {
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: #38bdf8;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.15);
+}
+
+.mc-badge-amber {
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+}
+
+.mc-badge-red {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #f87171;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+}
+
+.mc-badge-purple {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  color: #c084fc;
+}
+
+.mc-badge-emerald {
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+}
+
+/* Inputs & Dropdowns */
+.mc-select,
+.mc-input {
+  background: linear-gradient(180deg, rgba(12, 22, 44, 0.9) 0%, rgba(7, 14, 28, 0.95) 100%);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #f1f5f9;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.mc-select:focus,
+.mc-input:focus {
+  border-color: #00e5ff;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* Glossy Toggle Switch */
+.mc-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 10.5px;
+  color: #cbd5e1;
+}
+
+.mc-switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.mc-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.mc-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  transition: 0.2s;
+  border-radius: 20px;
+}
+
+.mc-slider:before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #94a3b8;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+.mc-switch input:checked + .mc-slider {
+  background-color: #0284c7;
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
+}
+
+.mc-switch input:checked + .mc-slider:before {
+  transform: translateX(14px);
+  background-color: #ffffff;
+  box-shadow: 0 0 4px #00e5ff;
+}
+
+/* Tables */
+.mc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-align: left;
+}
+
+.mc-table th {
+  padding: 4px 6px;
+  background: rgba(8, 16, 32, 0.95);
+  color: #94a3b8;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.mc-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.08);
+}
+
+.mc-table tr:hover td {
+  background: rgba(0, 229, 255, 0.1);
+}
+
+.mc-table tr.selected td {
+  background: rgba(2, 132, 199, 0.25);
+}
+
+/* Cesium customizations */
+.cesium-viewer {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background-color: #02050b !important;
+}
+
+.cesium-widget,
+.cesium-widget canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
+.cesium-viewer-bottom {
+  display: none !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(6, 13, 27, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.3);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.6);
+}
